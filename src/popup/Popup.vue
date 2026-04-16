@@ -1,0 +1,115 @@
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { NButton } from "naive-ui";
+import { sendMessageToActiveTab } from "../utils/chrome-wrapper";
+import { DraggableApp } from "../interface";
+
+const DRAGGABLE_CONFIG_KEY = "draggable";
+const enableDraggable = ref(false);
+
+const openDraggable = () => {
+  sendMessageToActiveTab({ type: DraggableApp.Events.OPEN_DRAGGABLE_APP });
+};
+
+onMounted(() => {
+  chrome.storage.sync.get([DRAGGABLE_CONFIG_KEY], (result) => {
+    enableDraggable.value = result[DRAGGABLE_CONFIG_KEY] ?? false;
+  });
+
+  chrome.runtime.onMessage.addListener((message: IMessage) => {
+    const { type } = message;
+
+  });
+});
+</script>
+
+<template>
+  <main>
+    <div>
+      <n-button @click="openDraggable">开启拖动任意元素</n-button>
+    </div>
+  </main>
+</template>
+
+<style>
+:root {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+
+  color-scheme: light dark;
+  background-color: #242424;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    background-color: #fafafa;
+  }
+
+  a:hover {
+    color: #42b983;
+  }
+}
+
+body {
+  min-width: 20rem;
+  color-scheme: light dark;
+}
+
+main {
+  text-align: center;
+  padding: 1em;
+  margin: 0 auto;
+}
+
+h3 {
+  color: #42b983;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 200;
+  line-height: 1.2rem;
+  margin: 2rem auto;
+}
+
+.calc {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+
+  > button {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #42b983;
+    border-radius: 0.25rem;
+    background-color: transparent;
+    color: #42b983;
+    cursor: pointer;
+    outline: none;
+
+    width: 3rem;
+    margin: 0 auto;
+  }
+
+  > label {
+    font-size: 1.5rem;
+    margin: 0 1rem;
+  }
+}
+
+a {
+  font-size: 0.5rem;
+  margin: 0.5rem;
+  color: #cccccc;
+  text-decoration: none;
+}
+</style>

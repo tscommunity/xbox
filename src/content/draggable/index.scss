@@ -1,0 +1,21 @@
+#xbox-draggable-app {
+  --n-border-color: #18a058;
+
+  position: fixed;
+  z-index: 999;
+  top: 100px;
+  left: 100px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: 1px solid var(--n-border-color);
+  width: 460px;
+  min-width: fit-content;
+  height: auto;
+  max-height: 600px;
+  overflow-y: auto;
+
+  &.hidden {
+    display: none;
+  }
+}
